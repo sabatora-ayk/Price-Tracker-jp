@@ -1,0 +1,35 @@
+name: 価格データ自動取得
+
+on:
+  schedule:
+    # 毎朝6時に実行（JST = UTC+9 なので UTCの21時）
+    - cron: '0 21 * * *'
+  workflow_dispatch:
+    # 手動実行も可能にする
+
+jobs:
+  fetch-prices:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Node.jsをセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 依存関係をインストール
+        run: npm ci
+
+      - name: tsx をインストール
+        run: npm install -g tsx
+
+      - name: 価格データを取得してDBに保存
+        env:
+          ESTAT_API_KEY: ${{ secrets.ESTAT_API_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+        run: tsx scripts/fetch-prices.ts
