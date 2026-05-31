@@ -97,7 +97,7 @@ export default function ItemPage() {
             <Tooltip
               contentStyle={{ backgroundColor: '#1f2937', border: 'none' }}
               labelStyle={{ color: '#e5e7eb' }}
-              formatter={(value: number) => [value.toFixed(1), 'CPI']}
+              formatter={(value) => [Number(value).toFixed(1), 'CPI']}
             />
             <Line
               type="monotone"
