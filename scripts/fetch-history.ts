@@ -39,29 +39,36 @@ async function fetchAllHistory(itemCode: string): Promise<Array<{date: string, v
 
     const arr = Array.isArray(values) ? values : [values]
     return arr
-      .filter((v: Record<string, string>) => v['$'] && v['$'] !== '-')
-      .map((v: Record<string, string>) => ({
-        // 時間コード例：2026000404 → 2026-04
-        date: parseTimeCode(v['@time']),
-        value: parseFloat(v['$']),
-      }))
-      .filter((v: {date: string, value: number}) => v.date !== null)
+  .filter((v: Record<string, string>) => v['$'] && v['$'] !== '-')
+  .map((v: Record<string, string>) => ({
+    date: parseTimeCode(v['@time']),
+    value: parseFloat(v['$']),
+  }))
+  .filter((v: {date: string | null, value: number}) => v.date !== null)
   } catch (err) {
     console.error(`取得失敗: ${itemCode}`, err)
     return []
   }
 }
 
-function parseTimeCode(code: string): string {
-  // 年次データ: 2025000000 → 2025-01-01
-  // 月次データ: 2026000404 → 2026-04-01
-  if (!code) return ''
+function parseTimeCode(code: string): string | null {
+  if (!code) return null
   const year = code.substring(0, 4)
-  const month = code.substring(7, 9)
-  if (month === '00' || month === '') {
+  const monthStr = code.substring(7, 9)
+  const month = parseInt(monthStr, 10)
+
+  // 月次データのみ使用（月が1〜12の範囲のもの）
+  if (month >= 1 && month <= 12) {
+    return `${year}-${String(month).padStart(2, '0')}-01`
+  }
+
+  // 年次データ（月コードが00）
+  if (monthStr === '00') {
     return `${year}-01-01`
   }
-  return `${year}-${month}-01`
+
+  // 季次・半期など不正な月は除外
+  return null
 }
 
 async function saveToSupabase(records: object[]): Promise<void> {
