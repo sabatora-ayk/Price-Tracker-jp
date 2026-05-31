@@ -1,0 +1,31 @@
+name: 過去データ一括取得（初回のみ）
+
+on:
+  workflow_dispatch:
+    # 手動実行のみ（自動実行しない）
+
+jobs:
+  fetch-history:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Node.jsをセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 依存関係をインストール
+        run: npm ci
+
+      - name: tsx をインストール
+        run: npm install -g tsx
+
+      - name: 過去データを一括取得してDBに保存
+        env:
+          ESTAT_API_KEY: ${{ secrets.ESTAT_API_KEY }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+        run: tsx scripts/fetch-history.ts
