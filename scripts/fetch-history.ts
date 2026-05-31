@@ -1,5 +1,6 @@
 // 過去データ一括取得スクリプト
 // e-Stat APIから1970年〜現在までの全履歴データを取得してSupabaseに保存する
+export{}
 
 const ESTAT_API_KEY = process.env.ESTAT_API_KEY
 const SUPABASE_URL = 'https://sfsajsilmnlqwyzcbjyz.supabase.co'
