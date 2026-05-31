@@ -42,7 +42,7 @@ async function fetchAllHistory(itemCode: string): Promise<Array<{date: string, v
     return arr
   .filter((v: Record<string, string>) => v['$'] && v['$'] !== '-')
   .map((v: Record<string, string>) => ({
-    date: parseTimeCode(v['@time']),
+    date: parseTimeCode(v['@time']) ?? '',
     value: parseFloat(v['$']),
   }))
   .filter((v: {date: string | null, value: number}) => v.date !== null)
