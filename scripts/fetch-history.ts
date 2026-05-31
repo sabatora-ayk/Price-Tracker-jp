@@ -1,5 +1,6 @@
 // 過去データ一括取得スクリプト
 // e-Stat APIから1970年〜現在までの全履歴データを取得してSupabaseに保存する
+export{}
 
 const ESTAT_API_KEY = process.env.ESTAT_API_KEY
 const SUPABASE_URL = 'https://sfsajsilmnlqwyzcbjyz.supabase.co'
@@ -41,7 +42,7 @@ async function fetchAllHistory(itemCode: string): Promise<Array<{date: string, v
     return arr
   .filter((v: Record<string, string>) => v['$'] && v['$'] !== '-')
   .map((v: Record<string, string>) => ({
-    date: parseTimeCode(v['@time']),
+    date: parseTimeCode(v['@time']) ?? '',
     value: parseFloat(v['$']),
   }))
   .filter((v: {date: string | null, value: number}) => v.date !== null)

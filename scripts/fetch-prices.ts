@@ -1,3 +1,4 @@
+export{}
 const ESTAT_API_KEY = process.env.ESTAT_API_KEY
 const SUPABASE_URL = 'https://sfsajsilmnlqwyzcbjyz.supabase.co'
 const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY
