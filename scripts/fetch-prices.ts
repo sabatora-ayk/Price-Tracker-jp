@@ -1,5 +1,5 @@
 const ESTAT_API_KEY = process.env.ESTAT_API_KEY
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL ?? ''
 const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY
 
 if (!SUPABASE_URL) throw new Error('NEXT_PUBLIC_SUPABASE_URL が未設定です')
