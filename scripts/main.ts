@@ -3,11 +3,14 @@ import { generateContent, getTodayCategory } from "./content-generator";
 import { saveContent, addToQueue, getInventoryReport } from "./queue-manager";
 import { PriceSummary } from "./types";
 import { createClient } from "@supabase/supabase-js";
+import ws from "ws";
 
 // Supabaseクライアント初期化
+import ws from "ws";
 const supabase = createClient(
   process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
+  process.env.SUPABASE_ANON_KEY!,
+  { realtime: { transport: ws } }
 );
 
 // price_recordsテーブルの生データ型（lib/supabase.tsのPriceRecordと一致）
