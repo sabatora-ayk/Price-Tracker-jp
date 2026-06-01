@@ -26,7 +26,8 @@ export function saveContent(content: GeneratedContent): string {
     fs.mkdirSync(CONTENT_DIR, { recursive: true });
   }
 
-  const date = new Date().toISOString().slice(0, 10);
+  const jst = new Date(Date.now() + 9 * 60 * 60 * 1000);
+  const date = jst.toISOString().slice(0, 10);
   const filename = `${date}-${content.topic.id}.md`;
   const filepath = path.join(CONTENT_DIR, filename);
 
