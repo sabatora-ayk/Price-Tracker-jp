@@ -39,7 +39,7 @@ export async function generateContent(
   });
 
   if (!response.ok) {
-    const errBody = await response.text(); console.error("API Error body:", errBody); throw new Error(`API error: ${response.status}`);
+    throw new Error(`API error: ${response.status}`);
   }
 
   const data = await response.json() as any;
