@@ -40,14 +40,15 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
 
-      - - name: Check inventory level
+      - name: Check inventory level
+        id: check_inventory_level
         run: npx ts-node --skipProject --compiler-options '{"module":"commonjs","esModuleInterop":true}' scripts/main.ts --mode=report
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
-          
-      - name: Create GitHub Issue for review
-        if: success()
+
+      - name: Create GitHub Issue for alert
+        if: success() && steps.check_inventory_level.outputs.low_inventory == 'true'
         uses: actions/github-script@v7
         with:
           script: |
@@ -75,7 +76,6 @@ jobs:
               labels: ['content-draft']
             });
 
-      # 生成ファイルをコミット（在庫として保存）
       - name: Commit generated content
         run: |
           git config user.name "github-actions[bot]"
