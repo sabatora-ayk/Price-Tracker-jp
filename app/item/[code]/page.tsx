@@ -50,10 +50,12 @@ export default function ItemPage() {
         if (err) {
           setError(err.message)
         } else {
-          const formatted = (rows ?? []).map((r) => ({
-            date: r.recorded_at.slice(0, 7),
-            price: r.price,
-          }))
+          const formatted = (rows ?? [])
+            .filter((r) => r.price > 0) // マイナス・ゼロ値を除外
+            .map((r) => ({
+              date: r.recorded_at.slice(0, 7),
+              price: r.price,
+            }))
           setData(formatted)
         }
         setLoading(false)
@@ -72,43 +74,66 @@ export default function ItemPage() {
     </div>
   )
 
+  // X軸ラベル：5年おきに表示
+  const ticks = data
+    .filter((d) => d.date.endsWith('-01') && Number(d.date.slice(0, 4)) % 5 === 0)
+    .map((d) => d.date)
+
   return (
-    <main className="max-w-4xl mx-auto px-4 py-8 bg-gray-950 min-h-screen text-white">
+    <main className="w-full max-w-4xl mx-auto px-6 py-8 bg-gray-950 min-h-screen text-white">
       <div className="mb-6">
         <Link href="/" className="text-blue-400 hover:underline text-sm">
           ← トップへ戻る
         </Link>
       </div>
       <h1 className="text-2xl font-bold mb-1">{itemName}</h1>
-      <p className="text-gray-400 text-sm mb-8">消費者物価指数（CPI）推移 / 総務省e-Stat</p>
+      <p className="text-gray-400 text-sm mb-8">
+        消費者物価指数（CPI）推移 / 総務省e-Stat / 2020年=100
+      </p>
+
       {data.length === 0 ? (
         <p className="text-gray-500">データがありません</p>
       ) : (
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-            <XAxis
-              dataKey="date"
-              stroke="#9ca3af"
-              tickFormatter={(v) => v.slice(0, 4)}
-              interval={23}
-            />
-            <YAxis stroke="#9ca3af" domain={['auto', 'auto']} />
-            <Tooltip
-              contentStyle={{ backgroundColor: '#1f2937', border: 'none' }}
-              labelStyle={{ color: '#e5e7eb' }}
-              formatter={(value) => [Number(value).toFixed(1), 'CPI']}
-            />
-            <Line
-              type="monotone"
-              dataKey="price"
-              stroke="#3b82f6"
-              dot={false}
-              strokeWidth={2}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        <div className="w-full">
+          <ResponsiveContainer width="100%" height={420}>
+            <LineChart
+              data={data}
+              margin={{ top: 10, right: 20, left: 0, bottom: 20 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis
+                dataKey="date"
+                stroke="#9ca3af"
+                ticks={ticks}
+                tickFormatter={(v) => v.slice(0, 4)}
+                tick={{ fontSize: 12 }}
+                angle={-45}
+                textAnchor="end"
+                height={50}
+              />
+              <YAxis
+                stroke="#9ca3af"
+                domain={['auto', 'auto']}
+                tick={{ fontSize: 12 }}
+                width={45}
+              />
+              <Tooltip
+                contentStyle={{ backgroundColor: '#1f2937', border: '1px solid #374151', borderRadius: '8px' }}
+                labelStyle={{ color: '#e5e7eb', marginBottom: '4px' }}
+                formatter={(value) => [Number(value).toFixed(1), 'CPI']}
+              />
+              <Line
+                type="monotone"
+                dataKey="price"
+                stroke="#3b82f6"
+                dot={false}
+                strokeWidth={2}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       )}
+
       <p className="text-xs text-gray-600 mt-4">
         品目コード: {code} | {data.length}件
       </p>
