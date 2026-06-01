@@ -8,7 +8,7 @@ import { createClient } from "@supabase/supabase-js";
 // Supabaseクライアント初期化
 const supabase = createClient(
   process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!  // SUPABASE_ANON_KEY! から変更
+  process.env.SUPABASE_ANON_KEY!  // これになっているか確認
 );
 // price_recordsテーブルの生データ型（lib/supabase.tsのPriceRecordと一致）
 interface RawPriceRecord {
