@@ -1,0 +1,82 @@
+name: Daily Content Generation
+
+on:
+  # 既存の毎朝6時更新ジョブが終わった後に実行
+  # 既存ジョブのcronが '0 21 * * *' (JST 6:00) なら少し後にずらす
+  schedule:
+    - cron: '15 21 * * *'  # 毎朝 6:15 JST
+
+  # 手動実行も可能
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'モード (daily / inventory / report)'
+        required: true
+        default: 'daily'
+        type: choice
+        options:
+          - daily
+          - inventory
+          - report
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate content
+        run: npx ts-node src/main.ts --mode=${{ github.event.inputs.mode || 'daily' }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLICSUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+
+      - name: Check inventory level
+        run: npx ts-node src/main.ts --mode=report
+
+      - name: Create GitHub Issue for review
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            // 今日生成されたファイルを読む
+            const today = new Date().toISOString().slice(0, 10);
+            const contentDir = 'content';
+            const todayFiles = fs.readdirSync(contentDir)
+              .filter(f => f.startsWith(today));
+            
+            if (todayFiles.length === 0) return;
+            
+            // 最初のファイルをIssueに貼る
+            const firstFile = fs.readFileSync(
+              path.join(contentDir, todayFiles[0]), 'utf-8'
+            );
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `📝 投稿下書き ${today}`,
+              body: `## 本日の投稿候補\n\n${todayFiles.map(f => `- ${f}`).join('\n')}\n\n---\n\n${firstFile}\n\n---\n\n**承認したら Issue をクローズして投稿してください**`,
+              labels: ['content-draft']
+            });
+
+      # 生成ファイルをコミット（在庫として保存）
+      - name: Commit generated content
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/ queue.json
+          git diff --staged --quiet || git commit -m "chore: add content drafts $(date +%Y-%m-%d)"
+          git push
