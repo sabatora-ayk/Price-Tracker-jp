@@ -27,10 +27,10 @@ export async function generateContent(
   const response = await fetch(ANTHROPIC_API_URL, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-      "x-api-key": apiKey,
-      "anthropic-version": "2023-06-01",
-    },
+  "Content-Type": "application/json",
+  "x-api-key": apiKey,
+  "anthropic-version": "2023-06-01",
+},
     body: JSON.stringify({
       model: "claude-sonnet-4-20250514",
       max_tokens: 1000,
