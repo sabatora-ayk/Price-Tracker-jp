@@ -1,0 +1,184 @@
+[
+  {
+    "id": "anomaly_max_cup_noodle",
+    "file": "2026-06-01-anomaly_max_cup_noodle.md",
+    "category": "anomaly",
+    "title": "カップ麺が過去最高水準",
+    "status": "draft"
+  },
+  {
+    "id": "anomaly_total_cup_noodle",
+    "file": "2026-06-01-anomaly_total_cup_noodle.md",
+    "category": "anomaly",
+    "title": "カップ麺は50年で189%上昇",
+    "status": "draft"
+  },
+  {
+    "id": "anomaly_max_bread",
+    "file": "2026-06-01-anomaly_max_bread.md",
+    "category": "anomaly",
+    "title": "食パンが過去最高水準",
+    "status": "draft"
+  },
+  {
+    "id": "anomaly_total_bread",
+    "file": "2026-06-01-anomaly_total_bread.md",
+    "category": "anomaly",
+    "title": "食パンは50年で211%上昇",
+    "status": "draft"
+  },
+  {
+    "id": "anomaly_max_tofu",
+    "file": "2026-06-01-anomaly_max_tofu.md",
+    "category": "anomaly",
+    "title": "豆腐が過去最高水準",
+    "status": "draft"
+  },
+  {
+    "id": "anomaly_total_tofu",
+    "file": "2026-06-01-anomaly_total_tofu.md",
+    "category": "anomaly",
+    "title": "豆腐は50年で268%上昇",
+    "status": "draft"
+  },
+  {
+    "id": "anomaly_total_fresh_vegetable",
+    "file": "2026-06-01-anomaly_total_fresh_vegetable.md",
+    "category": "anomaly",
+    "title": "生鮮野菜（ニンニク代替）は50年で200%上昇",
+    "status": "draft"
+  },
+  {
+    "id": "anomaly_total_tarako",
+    "file": "2026-06-01-anomaly_total_tarako.md",
+    "category": "anomaly",
+    "title": "たらこは50年で379%上昇",
+    "status": "draft"
+  },
+  {
+    "id": "anomaly_total_flour",
+    "file": "2026-06-01-anomaly_total_flour.md",
+    "category": "anomaly",
+    "title": "小麦粉は50年で144%上昇",
+    "status": "draft"
+  },
+  {
+    "id": "anomaly_max_mineral_water",
+    "file": "2026-06-01-anomaly_max_mineral_water.md",
+    "category": "anomaly",
+    "title": "ミネラルウォーターが過去最高水準",
+    "status": "draft"
+  },
+  {
+    "id": "generation_1968",
+    "file": "2026-06-01-generation_1968.md",
+    "category": "generation",
+    "title": "団塊世代が20歳の物価 vs 今",
+    "status": "draft"
+  },
+  {
+    "id": "generation_1988",
+    "file": "2026-06-01-generation_1988.md",
+    "category": "generation",
+    "title": "バブル世代が20歳の物価 vs 今",
+    "status": "draft"
+  },
+  {
+    "id": "generation_1998",
+    "file": "2026-06-01-generation_1998.md",
+    "category": "generation",
+    "title": "就職氷河期世代が20歳の物価 vs 今",
+    "status": "draft"
+  },
+  {
+    "id": "generation_2008",
+    "file": "2026-06-01-generation_2008.md",
+    "category": "generation",
+    "title": "ゆとり世代が20歳の物価 vs 今",
+    "status": "draft"
+  },
+  {
+    "id": "generation_2022",
+    "file": "2026-06-01-generation_2022.md",
+    "category": "generation",
+    "title": "Z世代が20歳の物価 vs 今",
+    "status": "draft"
+  },
+  {
+    "id": "historical_1973_tofu",
+    "file": "2026-06-01-historical_1973_tofu.md",
+    "category": "historical",
+    "title": "豆腐が第一次オイルショック時より高い",
+    "status": "draft"
+  },
+  {
+    "id": "historical_1973_tarako",
+    "file": "2026-06-01-historical_1973_tarako.md",
+    "category": "historical",
+    "title": "たらこが第一次オイルショック時より高い",
+    "status": "draft"
+  },
+  {
+    "id": "historical_1979_tofu",
+    "file": "2026-06-01-historical_1979_tofu.md",
+    "category": "historical",
+    "title": "豆腐が第二次オイルショック時より高い",
+    "status": "draft"
+  },
+  {
+    "id": "historical_1979_tarako",
+    "file": "2026-06-01-historical_1979_tarako.md",
+    "category": "historical",
+    "title": "たらこが第二次オイルショック時より高い",
+    "status": "draft"
+  },
+  {
+    "id": "culprit_electricity",
+    "file": "2026-06-01-culprit_electricity.md",
+    "category": "culprit",
+    "title": "電気代が高い本当の理由",
+    "status": "draft"
+  },
+  {
+    "id": "culprit_cup_noodle",
+    "file": "2026-06-01-culprit_cup_noodle.md",
+    "category": "culprit",
+    "title": "カップ麺が高い本当の理由",
+    "status": "draft"
+  },
+  {
+    "id": "culprit_bread",
+    "file": "2026-06-01-culprit_bread.md",
+    "category": "culprit",
+    "title": "食パンが高い本当の理由",
+    "status": "draft"
+  },
+  {
+    "id": "geopolitical_飼料輸入依存",
+    "file": "2026-06-01-geopolitical_飼料輸入依存.md",
+    "category": "geopolitical",
+    "title": "飼料輸入依存に依存する食品リスト",
+    "status": "draft"
+  },
+  {
+    "id": "ranking_top_gainers_50y",
+    "file": "2026-06-01-ranking_top_gainers_50y.md",
+    "category": "ranking",
+    "title": "50年で最も値上がりした食品TOP5",
+    "status": "draft"
+  },
+  {
+    "id": "ranking_most_stable",
+    "file": "2026-06-01-ranking_most_stable.md",
+    "category": "ranking",
+    "title": "50年で最も安定していた食品TOP5",
+    "status": "draft"
+  },
+  {
+    "id": "ranking_recent_gainers",
+    "file": "2026-06-01-ranking_recent_gainers.md",
+    "category": "ranking",
+    "title": "直近10年で最も値上がりした食品TOP5",
+    "status": "draft"
+  }
+]
