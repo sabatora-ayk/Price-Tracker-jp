@@ -34,14 +34,14 @@ jobs:
         run: npm ci
 
       - name: Generate content
-        run: npx ts-node src/main.ts --mode=${{ github.event.inputs.mode || 'daily' }}
+        run: npx ts-node --skipProject --compiler-options '{"module":"commonjs","esModuleInterop":true}' scripts/main.ts --mode=${{ github.event.inputs.mode || 'daily' }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SUPABASE_URL: ${{ secrets.NEXT_PUBLICSUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
 
       - name: Check inventory level
-        run: npx ts-node src/main.ts --mode=report
+        run: npx ts-node --skipProject --compiler-options '{"module":"commonjs","esModuleInterop":true}' scripts/main.ts --mode=report
 
       - name: Create GitHub Issue for review
         if: success()
