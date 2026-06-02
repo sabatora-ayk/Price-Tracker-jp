@@ -3,7 +3,7 @@ id: ranking_recent_gainers
 category: ranking
 title: 直近10年で最も値上がりした食品TOP5
 items: 電気代, カップ麺, 食パン, 卵, 豆腐
-generated_at: 2026-06-02T00:11:21.435Z
+generated_at: 2026-06-02T00:23:56.680Z
 status: draft
 ---
 
