@@ -86,6 +86,11 @@ ${JSON.stringify(topic.data_points, null, 2)}
 中盤でデータ提示。
 最後にサイト誘導。）
 
+===SHORTS_SCRIPT===
+（YouTubeショート用。縦型動画60秒以内。
+冒頭2秒でデータを見せる。
+テロップ前提の短い文章。
+最後にチャンネル登録促進。）
 ===END===
 `;
 }
@@ -104,7 +109,7 @@ function parseGeneratedContent(
     topic,
     x_post: xPost.trim(),
     tiktok_script: tiktokScript.trim(),
-    shorts_script: tiktokScript.trim(), // ShortsはTikTokと同一
+    shorts_script: (extractSection(text, "SHORTS_SCRIPT", "END") ?? tiktokScript).trim(),
     generated_at: new Date().toISOString(),
     status: "draft",
   };

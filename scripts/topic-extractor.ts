@@ -20,6 +20,7 @@ export function generateTopics(summaries: PriceSummary[]): ContentTopic[] {
   topics.push(...extractCulprits(summaries));
   topics.push(...extractGeopolitical(summaries));
   topics.push(...extractRankings(summaries));
+  topics.push(...extractComparisons(summaries));
 
   return topics;
 }
@@ -36,6 +37,7 @@ function extractAnomalies(summaries: PriceSummary[]): ContentTopic[] {
       topics.push({
         id: `anomaly_max_${s.item_key}`,
         category: "anomaly",
+        priority: 9,
         title: `${s.item_name}が過去最高水準`,
         items: [s.item_name],
         data_points: {
@@ -53,6 +55,7 @@ function extractAnomalies(summaries: PriceSummary[]): ContentTopic[] {
       topics.push({
         id: `anomaly_decade_${s.item_key}`,
         category: "anomaly",
+        priority: 6,
         title: `${s.item_name}が10年で${Math.round(s.decade_change_pct)}%上昇`,
         items: [s.item_name],
         data_points: {
@@ -68,6 +71,7 @@ function extractAnomalies(summaries: PriceSummary[]): ContentTopic[] {
       topics.push({
         id: `anomaly_total_${s.item_key}`,
         category: "anomaly",
+        priority: 7,
         title: `${s.item_name}は50年で${Math.round(s.total_change_pct)}%上昇`,
         items: [s.item_name],
         data_points: {
@@ -109,6 +113,7 @@ function extractGenerationComparisons(summaries: PriceSummary[]): ContentTopic[]
     topics.push({
       id: `generation_${gen.year}`,
       category: "generation",
+          priority: 5,
       title: `${gen.label}の物価 vs 今`,
       items: keyItems.map((s) => s.item_name),
       data_points: dataPoints,
@@ -135,6 +140,7 @@ function extractHistoricalComparisons(summaries: PriceSummary[]): ContentTopic[]
         topics.push({
           id: `historical_${event.year}_${s.item_key}`,
           category: "historical",
+          priority: 5,
           title: `${s.item_name}が${event.name}時より高い`,
           items: [s.item_name],
           data_points: {
@@ -168,6 +174,7 @@ function extractCulprits(summaries: PriceSummary[]): ContentTopic[] {
       topics.push({
         id: `culprit_${s.item_key}`,
         category: "culprit",
+          priority: 8,
         title: `${s.item_name}が高い本当の理由`,
         items: [s.item_name],
         data_points: {
@@ -204,6 +211,7 @@ function extractGeopolitical(summaries: PriceSummary[]): ContentTopic[] {
     topics.push({
       id: `geopolitical_${tag.replace(/\s/g, "_")}`,
       category: "geopolitical",
+          priority: 7,
       title: `${tag}に依存する食品リスト`,
       items: items.map((s) => s.item_name),
       data_points: Object.fromEntries(
@@ -231,6 +239,7 @@ function extractRankings(summaries: PriceSummary[]): ContentTopic[] {
   topics.push({
     id: "ranking_top_gainers_50y",
     category: "ranking",
+          priority: 6,
     title: "50年で最も値上がりした食品TOP5",
     items: topGainers.map((s) => s.item_name),
     data_points: Object.fromEntries(
@@ -247,6 +256,7 @@ function extractRankings(summaries: PriceSummary[]): ContentTopic[] {
   topics.push({
     id: "ranking_most_stable",
     category: "ranking",
+          priority: 6,
     title: "50年で最も安定していた食品TOP5",
     items: mostStable.map((s) => s.item_name),
     data_points: Object.fromEntries(
@@ -263,6 +273,7 @@ function extractRankings(summaries: PriceSummary[]): ContentTopic[] {
   topics.push({
     id: "ranking_recent_gainers",
     category: "ranking",
+          priority: 6,
     title: "直近10年で最も値上がりした食品TOP5",
     items: recentGainers.map((s) => s.item_name),
     data_points: Object.fromEntries(
@@ -287,4 +298,36 @@ function getIndexAtYear(summary: PriceSummary, year: number): number | null {
   if (year <= 2010) return summary.index_2010;
   if (year <= 2020) return summary.index_2020;
   return summary.current_index;
+}
+
+// ——————————————————————————————
+// カテゴリ7: 品目間比較
+// ——————————————————————————————
+function extractComparisons(summaries: PriceSummary[]): ContentTopic[] {
+  const topics: ContentTopic[] = [];
+
+  const sorted = [...summaries].sort(
+    (a, b) => (b.decade_change_pct ?? 0) - (a.decade_change_pct ?? 0)
+  );
+
+  // 上位3ペアを比較トピックとして生成
+  for (let i = 0; i < Math.min(sorted.length - 1, 3); i++) {
+    const a = sorted[i];
+    const b = sorted[i + 1];
+
+    topics.push({
+      id: `comparison_${a.item_key}_vs_${b.item_key}`,
+      category: "comparison",
+      priority: 6,
+      title: `${a.item_name} vs ${b.item_name}、値上がり対決`,
+      items: [a.item_name, b.item_name],
+      data_points: {
+        [`${a.item_key}_change`]: a.decade_change_pct,
+        [`${b.item_key}_change`]: b.decade_change_pct,
+      },
+      hook: `${a.item_name}と${b.item_name}、どっちが家計を直撃しているか？`,
+    });
+  }
+
+  return topics;
 }

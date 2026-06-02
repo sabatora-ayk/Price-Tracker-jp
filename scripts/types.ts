@@ -8,7 +8,8 @@ export type ContentCategory =
   | "historical"     // 歴史イベント「オイルショック時と比較」
   | "culprit"        // 犯人探し「なぜ高い？」
   | "geopolitical"   // 地政学「中国90%依存」
-  | "ranking";       // ランキング「最も安定していた食品」
+  | "ranking"
+  | "comparison";       // ランキング「最も安定していた食品」
 
 export type Platform = "x" | "tiktok" | "shorts";
 
@@ -43,6 +44,7 @@ export interface PriceSummary {
 
 export interface ContentTopic {
   id: string;
+  priority: number;
   category: ContentCategory;
   title: string;                // 例："電気代がオイルショック超え"
   items: string[];              // 関連品目

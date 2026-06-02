@@ -7,8 +7,7 @@ import { GeneratedContent, ContentTopic } from "./types";
 // ============================================
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
-const QUEUE_FILE = path.join(process.cwd(), "queue.json");
-
+const QUEUE_FILE = path.join(process.cwd(), "content", "queue.json");
 export interface QueueEntry {
   id: string;
   file: string;
